@@ -37,11 +37,6 @@ public class ShadowDance extends AbstractGame  {
     private boolean finished = false;
     private boolean paused = false;
 
-    //Change to arrayList for Enemy
-    private Enemy[] enemies = new Enemy[20];
-    private int numEnemy = 0;
-    private int currEnemy=0;
-    private final static int ENEMY_FRAME_SPAWN = 600;
     private Guardian guardian = new Guardian();
 
     public ShadowDance(){
@@ -173,15 +168,8 @@ public class ShadowDance extends AbstractGame  {
                 for (int i = 0; i < numLanes; i++) {
                     score += lanes[i].update(input, accuracy);
                 }
+
                 guardian.update(input);
-                if((ShadowDance.getCurrFrame() % ENEMY_FRAME_SPAWN) == 0){
-                    createEnemy();
-
-                }
-                for (int l= currEnemy ; l < numEnemy; l++) {
-                    enemies[l].update();
-                }
-
                 accuracy.update();
                 finished = checkFinished();
                 if (input.wasPressed(Keys.TAB)) {
@@ -205,9 +193,5 @@ public class ShadowDance extends AbstractGame  {
         }
         return true;
     }
-    public void createEnemy(){
-        Enemy newEnemy = new Enemy();
-        enemies[numEnemy]= newEnemy;
-        numEnemy++;
-    }
+
 }

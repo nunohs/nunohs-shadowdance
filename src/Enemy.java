@@ -1,11 +1,12 @@
 import bagel.*;
+import bagel.util.Point;
+
 public class Enemy {
     private static int SPEED = -1;
     private final Image enemyImage = new Image("res/enemy.PNG");
     private double xCoord;
-    private final double initialX;
     private double yCoord;
-    private final double initialY;
+
     private static final int MAX_WIDTH = 900;
     private static final int MIN_WIDTH = 100;
     private static final int MIN_HEIGHT = 100;
@@ -15,10 +16,21 @@ public class Enemy {
 
     public Enemy(){
         randomLocation();
-        this.initialX = xCoord;
-        this.initialY = yCoord;
 
+    }
+    public double getxCoord() {
+        return xCoord;
+    }
+    public double getyCoord() {
+        return yCoord;
+    }
 
+    public boolean isActivated() {
+        return activated;
+    }
+
+    public Point getCurrentLocation(){
+        return new Point(getxCoord(),getyCoord());
     }
     public void randomLocation(){
         xCoord = Math.random()*(MAX_WIDTH - INCLUSIVITY) + MIN_WIDTH;
@@ -35,7 +47,7 @@ public class Enemy {
         }
     }
     public void deactivate(){
-
+        activated = false;
     }
 
 }
