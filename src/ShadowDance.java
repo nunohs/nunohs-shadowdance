@@ -2,6 +2,8 @@ import bagel.*;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Uses Sample solution for SWEN20003 Project 1, Semester 2, 2023 for
@@ -27,8 +29,11 @@ public class ShadowDance extends AbstractGame  {
     private static final int CLEAR_SCORE = 150;
     private static final String CLEAR_MESSAGE = "CLEAR!";
     private static final String TRY_AGAIN_MESSAGE = "TRY AGAIN";
+    private static final String END_SCREEN_MESSAGE = "PRESS SPACE TO RETURN TO LEVEL SELECTION";
+    private static final int END_Y_ONE = 300;
+    private static final int END_Y_TWO = 500;
     private final Accuracy accuracy = new Accuracy();
-    private final Lane[] lanes = new Lane[5];
+    private List<Lane> lanes= new ArrayList<>();
     private int numLanes = 0;
     private int score = 0;
     private static int currFrame = 0;
@@ -36,7 +41,6 @@ public class ShadowDance extends AbstractGame  {
     private boolean started = false;
     private boolean finished = false;
     private boolean paused = false;
-
     private Guardian guardian = new Guardian();
 
     public ShadowDance(){
@@ -66,14 +70,14 @@ public class ShadowDance extends AbstractGame  {
                     String laneType = splitText[1];
                     int pos = Integer.parseInt(splitText[2]);
                     Lane lane = new Lane(laneType, pos);
-                    lanes[numLanes++] = lane;
+                    lanes.add(numLanes++, lane);
                 } else {
                     // reading notes
                     String dir = splitText[0];
                     Lane lane = null;
                     for (int i = 0; i < numLanes; i++) {
-                        if (lanes[i].getType().equals(dir)) {
-                            lane = lanes[i];
+                        if (lanes.get(i).getType().equals(dir)) {
+                            lane = lanes.get(i);
                         }
                     }
 
@@ -142,12 +146,15 @@ public class ShadowDance extends AbstractGame  {
             if (score >= CLEAR_SCORE) {
                 TITLE_FONT.drawString(CLEAR_MESSAGE,
                         WINDOW_WIDTH/2 - TITLE_FONT.getWidth(CLEAR_MESSAGE)/2,
-                        WINDOW_HEIGHT/2);
+                        END_Y_ONE);
             } else {
                 TITLE_FONT.drawString(TRY_AGAIN_MESSAGE,
                         WINDOW_WIDTH/2 - TITLE_FONT.getWidth(TRY_AGAIN_MESSAGE)/2,
-                        WINDOW_HEIGHT/2);
+                        END_Y_ONE);
             }
+            INSTRUCTION_FONT.drawString(END_SCREEN_MESSAGE,
+                    WINDOW_WIDTH/2 - INSTRUCTION_FONT.getWidth(END_SCREEN_MESSAGE)/2,
+                    END_Y_TWO);
         } else {
             // gameplay
 
@@ -160,13 +167,13 @@ public class ShadowDance extends AbstractGame  {
                 }
 
                 for (int i = 0; i < numLanes; i++) {
-                    lanes[i].draw();
+                    lanes.get(i).draw();
                 }
 
             } else {
                 currFrame++;
                 for (int i = 0; i < numLanes; i++) {
-                    score += lanes[i].update(input, accuracy);
+                    score += lanes.get(i).update(input, accuracy);
                 }
 
                 guardian.update(input);
@@ -187,7 +194,7 @@ public class ShadowDance extends AbstractGame  {
 
     private boolean checkFinished() {
         for (int i = 0; i < numLanes; i++) {
-            if (!lanes[i].isFinished()) {
+            if (!lanes.get(i).isFinished()) {
                 return false;
             }
         }

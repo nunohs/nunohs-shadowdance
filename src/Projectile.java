@@ -15,7 +15,7 @@ public class Projectile {
         setProjectileDirection(enemyLocation);
         this.angleProjectile = Math.atan2(enemyLocation.y - projectileInitialPoint.y,
                 enemyLocation.x - projectileInitialPoint.x);
-        rotation.setRotation(angleProjectile);
+        this.rotation.setRotation(angleProjectile);
         this.active = true;
     }
     public Point getProjectileCurrentPoint(){
@@ -23,6 +23,7 @@ public class Projectile {
     }
 
     public void update(){
+        outOfBounds();
         if(active) {
             xCoord += SPEED * projectileDirectionX;
             yCoord += SPEED * projectileDirectionY;
@@ -43,7 +44,15 @@ public class Projectile {
         projectileDirectionY = (enemyLocation.y-projectileInitialPoint.y)/distance;
     }
 
-    //public void isActive(){
-      //  if (x < 0 || x > Window.getWidth())
-    //}
+    public boolean isActive() {
+        return active;
+    }
+    public void outOfBounds(){
+        if (xCoord < 0 || xCoord > Window.getWidth()){
+            active = false;
+        }
+        if (yCoord < 0 || yCoord > Window.getWidth()){
+            active = false;
+        }
+    }
 }

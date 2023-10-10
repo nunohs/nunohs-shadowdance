@@ -2,7 +2,7 @@ import bagel.*;
 import bagel.util.Point;
 
 public class Enemy {
-    private static int SPEED = -1;
+    private int SPEED = -1;
     private final Image enemyImage = new Image("res/enemy.PNG");
     private double xCoord;
     private double yCoord;
