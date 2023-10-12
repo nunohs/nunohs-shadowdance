@@ -11,7 +11,6 @@ public class LevelThree extends LevelBase{
         super();
         this.clearScore = CLEAR_SCORE_THREE;
         this.levelNumber = 3;
-
     }
 
     public void update(Input input) {
@@ -31,6 +30,7 @@ public class LevelThree extends LevelBase{
         guardian.update(input, enemies);
         enemyHitsNotes();
         accuracy.update();
+        bombExplodes();
         finished = checkFinished();
     }
     public void enemyHitsNotes(){

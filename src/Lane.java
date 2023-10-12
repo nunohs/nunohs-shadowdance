@@ -78,6 +78,17 @@ public class Lane {
 
 
         if (currNote < numNotes) {
+            if(notes.get(currNote) instanceof SpecialNote && notes.get(currNote).isActive() &&
+                    input.wasPressed(relevantKey)){
+                SpecialNote bomb = (SpecialNote) notes.get(currNote);
+                String specialType = accuracy.evaluateSpecialEffects(bomb.getY(),TARGET_HEIGHT,bomb.getType());
+                int score = specialEffectsScore(specialType);
+                bomb.deactivate();
+                currNote++;
+                return score;
+
+            }
+
             int score = notes.get(currNote).checkScore(input, accuracy, TARGET_HEIGHT, relevantKey);
             if (notes.get(currNote).isCompleted()) {
                 currNote++;
@@ -119,6 +130,9 @@ public class Lane {
             case "Double Score":
                 LevelBase.doubleActive();
                 break;
+            case "Lane Clear":
+                LevelBase.bombActivated();
+                break;
         }
         return 0;
     }
@@ -133,6 +147,26 @@ public class Lane {
         }
         for (int k = currSpecialNote; k < numSpecialNotes; k++) {
             specialNotes.get(k).setSpeed(tempSpeed);
+        }
+    }
+
+    public void bombExplodes(){
+        for (int i = currNote; i < numNotes; i++) {
+            if(notes.get(i).isActive()) {
+                notes.get(i).deactivate();
+            }
+        }
+
+        for (int j = currHoldNote; j < numHoldNotes; j++) {
+            if(holdNotes.get(j).isActive()) {
+                holdNotes.get(j).deactivate();
+            }
+
+        }
+        for (int k = currSpecialNote; k < numSpecialNotes; k++) {
+            if(specialNotes.get(k).isActive()) {
+                specialNotes.get(k).deactivate();
+            }
         }
     }
 

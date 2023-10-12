@@ -23,6 +23,7 @@ public class LevelTwo extends LevelBase{
         }
 
         accuracy.update();
+        bombExplodes();
         finished = checkFinished();
     }
 

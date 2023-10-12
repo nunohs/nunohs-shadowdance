@@ -23,6 +23,7 @@ public abstract class LevelBase {
     protected static boolean speedUp = false;
     protected static boolean speedDown = false;
     protected static int speedChange = 0;
+    protected static boolean bomb = false;
 
     public LevelBase() {
         this.currFrame = 0;
@@ -32,6 +33,17 @@ public abstract class LevelBase {
         this.accuracy = new Accuracy();
         this.score = 0;
         this.numLanes = 0;
+    }
+    public static void bombActivated(){
+        bomb = true;
+    }
+    public void bombExplodes(){
+        if(bomb){
+            for (Lane lane: lanes) {
+                lane.bombExplodes();
+            }
+            bomb = false;
+        }
     }
     public static void speedUpActive(){
         speedUp = true;
@@ -131,7 +143,7 @@ public abstract class LevelBase {
                             case "Bomb":
                                 SpecialNote bombNote = new SpecialNote("res/note" + splitText[1] + ".png",
                                         Integer.parseInt(splitText[2]),splitText[1]);
-                                lane.addSpecialNote(bombNote);
+                                lane.addNote(bombNote);
                                 break;
                         }
                     }
