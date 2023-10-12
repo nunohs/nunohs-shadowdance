@@ -18,7 +18,7 @@ public class Guardian {
     public void update(Input input){
         guardianImage.draw(GUARDIAN_POINT.x,GUARDIAN_POINT.y);
 
-        if((ShadowDance.getCurrFrame() % ENEMY_FRAME_SPAWN) == 0){
+        if((LevelBase.getCurrFrame() % ENEMY_FRAME_SPAWN) == 0){
             createEnemy();
 
         }

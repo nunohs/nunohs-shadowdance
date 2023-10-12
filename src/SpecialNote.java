@@ -20,6 +20,11 @@ public class SpecialNote {
         return active;
     }
     public boolean isCompleted() {return completed;}
+
+    public int getY() {
+        return y;
+    }
+
     public void deactivate() {
         active = false;
         completed = true;
@@ -34,7 +39,7 @@ public class SpecialNote {
             y += speed;
         }
 
-        if (ShadowDance.getCurrFrame() >= appearanceFrame && !completed) {
+        if (LevelBase.getCurrFrame() >= appearanceFrame && !completed) {
             active = true;
         }
     }

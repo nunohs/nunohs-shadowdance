@@ -15,7 +15,7 @@ public class Enemy {
     private boolean activated = true;
 
     public Enemy(){
-        randomLocation();
+        this.randomLocation();
 
     }
     public double getxCoord() {

@@ -21,6 +21,8 @@ public class Accuracy {
     private static final int RENDER_FRAMES = 30;
     private String currAccuracy = null;
     private int frameCount = 0;
+    private static final int ACTIVATED = 50;
+    private static final String DOUBLED = "Double Score";
 
     public void setAccuracy(String accuracy) {
         currAccuracy = accuracy;
@@ -52,6 +54,12 @@ public class Accuracy {
 
         return NOT_SCORED;
 
+    }
+    public void evualuteSpecialEffects(int height, int targetHeight){
+        int distance = Math.abs(height - targetHeight);
+        if(distance <= ACTIVATED ){
+            setAccuracy(DOUBLED);
+        }
     }
 
     public void update() {

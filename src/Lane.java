@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class Lane {
     private static final int HEIGHT = 384;
-    private static final int TARGET_HEIGHT = 657;
+    protected static final int TARGET_HEIGHT = 657;
     private final String type;
     private final Image image;
     //private final Note[] notes = new Note[100];
@@ -94,6 +94,8 @@ public class Lane {
             }
             return score;
         }
+
+
 
         return Accuracy.NOT_SCORED;
     }

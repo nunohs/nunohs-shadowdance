@@ -40,7 +40,7 @@ public class HoldNote {
             y += speed;
         }
 
-        if (ShadowDance.getCurrFrame() >= appearanceFrame && !completed) {
+        if (LevelBase.getCurrFrame() >= appearanceFrame && !completed) {
             active = true;
         }
     }

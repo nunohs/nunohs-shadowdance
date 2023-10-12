@@ -42,10 +42,11 @@ public class ShadowDance extends AbstractGame  {
     private boolean finished = false;
     private boolean paused = false;
     private Guardian guardian = new Guardian();
+    private LevelBase levelPlaying;
 
     public ShadowDance(){
         super(WINDOW_WIDTH, WINDOW_HEIGHT, GAME_TITLE);
-        readCsv();
+
     }
 
 
@@ -59,7 +60,7 @@ public class ShadowDance extends AbstractGame  {
 
 
 
-    private void readCsv() {
+   /* private void readCsv() {
         try (BufferedReader br = new BufferedReader(new FileReader(CSV_FILE))) {
             String textRead;
             while ((textRead = br.readLine()) != null) {
@@ -118,6 +119,8 @@ public class ShadowDance extends AbstractGame  {
 
     }
 
+    */
+
     /**
      * Performs a state update.
      * Allows the game to exit when the escape key is pressed.
@@ -139,11 +142,26 @@ public class ShadowDance extends AbstractGame  {
 
             if (input.wasPressed(Keys.NUM_1)) {
                 started = true;
+                levelPlaying = new LevelOne();
+                levelPlaying.runLevel();
                 //track.start();
             }
-        } else if (finished) {
+            else if (input.wasPressed(Keys.NUM_2)) {
+                started = true;
+                levelPlaying = new LevelTwo();
+                levelPlaying.runLevel();
+                //track.start();
+            }
+            else if (input.wasPressed(Keys.NUM_3)) {
+                started = true;
+                levelPlaying = new LevelThree();
+                levelPlaying.runLevel();
+                //track.start();
+            }
+
+        } else if (levelPlaying.checkFinished()) {
             // end screen
-            if (score >= CLEAR_SCORE) {
+            if (!levelPlaying.endLevel()) {
                 TITLE_FONT.drawString(CLEAR_MESSAGE,
                         WINDOW_WIDTH/2 - TITLE_FONT.getWidth(CLEAR_MESSAGE)/2,
                         END_Y_ONE);
@@ -155,8 +173,14 @@ public class ShadowDance extends AbstractGame  {
             INSTRUCTION_FONT.drawString(END_SCREEN_MESSAGE,
                     WINDOW_WIDTH/2 - INSTRUCTION_FONT.getWidth(END_SCREEN_MESSAGE)/2,
                     END_Y_TWO);
-        } else {
-            // gameplay
+            if(input.wasPressed(Keys.SPACE)){
+                started=false;
+            }
+        }
+        else {
+            SCORE_FONT.drawString("Score " + levelPlaying.getScore(), SCORE_LOCATION, SCORE_LOCATION);
+            levelPlaying.update(input);
+            /*// gameplay
 
             SCORE_FONT.drawString("Score " + score, SCORE_LOCATION, SCORE_LOCATION);
 
@@ -184,7 +208,11 @@ public class ShadowDance extends AbstractGame  {
                     track.pause();
                 }
             }
+
+             */
         }
+
+
 
     }
 
