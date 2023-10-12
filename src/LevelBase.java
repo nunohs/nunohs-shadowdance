@@ -7,6 +7,7 @@ import java.util.List;
 
 public abstract class LevelBase {
     protected static int currFrame;
+    protected static boolean doubled = false;
     protected List<Lane> lanes;
     protected boolean started;
     protected boolean finished;
@@ -18,6 +19,10 @@ public abstract class LevelBase {
     public final static String FONT_FILE = "res/FSO8BITR.TTF";
     protected int score;
     private final static int SCORE_LOCATION = 35;
+    protected static int doubledFrame = 0;
+    protected static boolean speedUp = false;
+    protected static boolean speedDown = false;
+    protected static int speedChange = 0;
 
     public LevelBase() {
         this.currFrame = 0;
@@ -27,6 +32,38 @@ public abstract class LevelBase {
         this.accuracy = new Accuracy();
         this.score = 0;
         this.numLanes = 0;
+    }
+    public static void speedUpActive(){
+        speedUp = true;
+        speedChange = 1;
+    }
+    public static boolean isSpeedUpActive(){
+        return speedUp;
+    }
+
+    public static boolean isSpeedDownActive() {
+        return speedDown;
+    }
+
+    public static void speedDownActive(){
+        speedDown = true;
+        speedChange = -1;
+    }
+    public static void doubleActive(){
+        doubled = true;
+        doubledFrame = 0;
+    }
+    public static void deactivateDouble(){
+        doubled = false;
+        doubledFrame = 0;
+    }
+
+    public static boolean isDoubled() {
+        return doubled;
+    }
+    public void deActivateSpeedChange(){
+        speedUp = false;
+        speedDown = false;
     }
 
     public static int getCurrFrame(){
@@ -38,6 +75,8 @@ public abstract class LevelBase {
                 return false;
             }
         }
+        deactivateDouble();
+        deActivateSpeedChange();
         return true;
     }
     private void readCsv(int levelNumber) {
@@ -66,27 +105,32 @@ public abstract class LevelBase {
                     if (lane != null) {
                         switch (splitText[1]) {
                             case "Normal":
-                                Note note = new Note(dir, Integer.parseInt(splitText[2]));
+                                Note note = new Note("res/note" + dir + ".png", Integer.parseInt(splitText[2]));
                                 lane.addNote(note);
                                 break;
                             case "Hold":
-                                HoldNote holdNote = new HoldNote(dir, Integer.parseInt(splitText[2]));
+                                HoldNote holdNote = new HoldNote("res/holdNote" + dir + ".PNG",
+                                        Integer.parseInt(splitText[2]));
                                 lane.addHoldNote(holdNote);
                                 break;
                             case "SpeedUp":
-                                SpecialNote speedUpNote = new SpecialNote("SpeedUp", Integer.parseInt(splitText[2]));
+                                SpecialNote speedUpNote = new SpecialNote("res/noteSpeedUp.png",
+                                        Integer.parseInt(splitText[2]), (splitText[1]));
                                 lane.addSpecialNote(speedUpNote);
                                 break;
                             case "SlowDown":
-                                SpecialNote slowDownNote = new SpecialNote("SlowDown", Integer.parseInt(splitText[2]));
+                                SpecialNote slowDownNote = new SpecialNote("res/noteSlowDown.png",
+                                        Integer.parseInt(splitText[2]),(splitText[1]) );
                                 lane.addSpecialNote(slowDownNote);
                                 break;
                             case "DoubleScore":
-                                SpecialNote doubleScoreNote = new SpecialNote("2x", Integer.parseInt(splitText[2]));
+                                SpecialNote doubleScoreNote = new SpecialNote("res/note2x.png",
+                                        Integer.parseInt(splitText[2]),"2x");
                                 lane.addSpecialNote(doubleScoreNote);
                                 break;
                             case "Bomb":
-                                Note bombNote = new Note("Bomb", Integer.parseInt(splitText[2]));
+                                Note bombNote = new Note("res/note" + splitText[1] + ".png",
+                                        Integer.parseInt(splitText[2]));
                                 lane.addNote(bombNote);
                                 break;
                         }
@@ -99,6 +143,7 @@ public abstract class LevelBase {
         }
 
     }
+
     public void runLevel() {
         readCsv(levelNumber);
         started = true;
@@ -106,13 +151,26 @@ public abstract class LevelBase {
     public abstract void update(Input input);
 
     public boolean endLevel(){
-        if(score <= clearScore){
-            return false;
+        if(score >= clearScore){
+            return true;
         }
-        return true;
+        return false;
     }
 
     public int getScore() {
         return score;
+    }
+    public void changeSpeed(){
+        if(isSpeedUpActive()){
+            for (Lane lane: lanes) {
+                lane.changeSpeed(speedChange);
+            }
+            speedUp = false;
+        } else if (isSpeedDownActive()){
+            for (Lane lane: lanes) {
+                lane.changeSpeed(speedChange);
+            }
+            speedDown = false;
+        }
     }
 }

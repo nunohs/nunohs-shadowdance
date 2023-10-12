@@ -1,39 +1,28 @@
 import bagel.Image;
 import bagel.Input;
 import bagel.Keys;
+import bagel.Window;
 
-public class SpecialNote {
-    private final int speed = 2;
-    private int y = 100;
-    private final Image image;
-    private final int appearanceFrame;
-    private boolean active = false;
-    private boolean completed = false;
+public class SpecialNote extends Note {
+    //private int y = 100;
+    //private final Image image;
+    // private final int appearanceFrame;
+    private String type;
 
-    public SpecialNote(String dir, int appearanceFrame) {
-        image = new Image("res/note" + dir + ".png");
-        this.appearanceFrame = appearanceFrame;
+    public SpecialNote(String dir, int appearanceFrame, String type) {
+        super(dir, appearanceFrame);
+        this.type = type;
     }
-
-
-    public boolean isActive() {
-        return active;
-    }
-    public boolean isCompleted() {return completed;}
 
     public int getY() {
         return y;
     }
 
-    public void deactivate() {
-        active = false;
-        completed = true;
+    public String getType() {
+        return type;
     }
-    public void draw(int x) {
-        if (active) {
-            image.draw(x, y);
-        }
-    }
+
+    @Override
     public void update() {
         if (active) {
             y += speed;
@@ -42,8 +31,12 @@ public class SpecialNote {
         if (LevelBase.getCurrFrame() >= appearanceFrame && !completed) {
             active = true;
         }
+        if (y >= (Window.getHeight())){
+            deactivate();
+        }
     }
-    public int checkScore(Input input, Accuracy accuracy, int targetHeight, Keys relevantKey) {
+
+    /*public int checkScore(Input input, Accuracy accuracy, int targetHeight, Keys relevantKey) {
         if (isActive()) {
             // evaluate accuracy of the key press
             int score = accuracy.evaluateScore(y, targetHeight, input.wasPressed(relevantKey));
@@ -57,4 +50,6 @@ public class SpecialNote {
 
         return 0;
     }
+
+     */
 }

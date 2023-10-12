@@ -23,6 +23,10 @@ public class Accuracy {
     private int frameCount = 0;
     private static final int ACTIVATED = 50;
     private static final String DOUBLED = "Double Score";
+    private static final String SPEED_UP = "Speed Up";
+    private static final String SLOW_DOWN = "Slow Down";
+    private static final String NONE = "No Effect";
+    private static final int SPECIAL = 15;
 
     public void setAccuracy(String accuracy) {
         currAccuracy = accuracy;
@@ -55,11 +59,23 @@ public class Accuracy {
         return NOT_SCORED;
 
     }
-    public void evualuteSpecialEffects(int height, int targetHeight){
+    public String evaluateSpecialEffects(int height, int targetHeight, String noteType){
         int distance = Math.abs(height - targetHeight);
         if(distance <= ACTIVATED ){
-            setAccuracy(DOUBLED);
+            switch (noteType){
+                case "SpeedUp":
+                    setAccuracy(SPEED_UP);
+                    return SPEED_UP;
+                case "SlowDown":
+                    setAccuracy(SLOW_DOWN);
+                    return SLOW_DOWN;
+                case "2x":
+                    setAccuracy(DOUBLED);
+                    return DOUBLED;
+
+            }
         }
+        return NONE;
     }
 
     public void update() {

@@ -26,6 +26,8 @@ public class Lane {
     private int currNote = 0;
     private int currHoldNote = 0;
     private int currSpecialNote = 0;
+    private static final int SPEED_UP = 1;
+    private static final int SPEED_DOWN = 1;
 
     public Lane(String dir, int location) {
         this.type = dir;
@@ -88,16 +90,47 @@ public class Lane {
             return score;
         }
         if (currSpecialNote < numSpecialNotes) {
-            int score = specialNotes.get(currSpecialNote).checkScore(input, accuracy, TARGET_HEIGHT, relevantKey);
-            if (specialNotes.get(currSpecialNote).isCompleted()) {
+            if (specialNotes.get(currSpecialNote).isActive() && input.wasPressed(relevantKey)) {
+                String specialType= accuracy.evaluateSpecialEffects(specialNotes.get(currSpecialNote).getY(), TARGET_HEIGHT,
+                        specialNotes.get(currSpecialNote).getType());
+                int score = specialEffectsScore(specialType);
+                specialNotes.get(currSpecialNote).deactivate();
+                currSpecialNote++;
+                return score;
+            } else if(specialNotes.get(currSpecialNote).isCompleted()){
                 currSpecialNote++;
             }
-            return score;
         }
 
-
-
         return Accuracy.NOT_SCORED;
+    }
+
+    public int specialEffectsScore(String type){
+        switch (type){
+            case "Speed Up":
+                LevelBase.speedUpActive();
+                return 15;
+            case "Slow Down":
+                LevelBase.speedDownActive();
+                return 15;
+            case "Double Score":
+                LevelBase.doubleActive();
+            default:
+                return 0;
+        }
+    }
+    // Changes note speed for all lanes
+    public void changeSpeed(int tempSpeed){
+        for (int i = currNote; i < numNotes; i++) {
+            notes.get(i).setSpeed(tempSpeed);
+        }
+
+        for (int j = currHoldNote; j < numHoldNotes; j++) {
+            holdNotes.get(j).setSpeed(tempSpeed);
+        }
+        for (int k = currSpecialNote; k < numSpecialNotes; k++) {
+            specialNotes.get(k).setSpeed(tempSpeed);
+        }
     }
 
     public void addNote(Note n) {

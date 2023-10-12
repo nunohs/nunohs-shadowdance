@@ -3,53 +3,32 @@ import bagel.*;
 /**
  * Class for hold notes
  */
-public class HoldNote {
+public class HoldNote extends Note{
 
     private static final int HEIGHT_OFFSET = 82;
-    private final Image image;
-    private final int appearanceFrame;
-    private final int speed = 2;
-    private int y = 24;
-    private boolean active = false;
+    // private final Image image;
+    //private final int appearanceFrame;
+    //private int y = 24;
+    //private boolean active = false;
     private boolean holdStarted = false;
-    private boolean completed = false;
+    //private boolean completed = false;
+    private final static int Y_HOLD = 24;
 
     public HoldNote(String dir, int appearanceFrame) {
-        image = new Image("res/holdNote" + dir + ".PNG");
-        this.appearanceFrame = appearanceFrame;
+        super(dir,appearanceFrame);
+        this.y = Y_HOLD;
     }
 
-    public boolean isActive() {
-        return active;
-    }
-    public boolean isCompleted() {
-        return completed;
-    }
-
-    public void deactivate() {
-        active = false;
-        completed = true;
+    @Override
+    public void update() {
+        super.update();
     }
 
     public void startHold() {
         holdStarted = true;
     }
 
-    public void update() {
-        if (active) {
-            y += speed;
-        }
 
-        if (LevelBase.getCurrFrame() >= appearanceFrame && !completed) {
-            active = true;
-        }
-    }
-
-    public void draw(int x) {
-        if (active) {
-            image.draw(x, y);
-        }
-    }
 
     /**
      * scored twice, once at the start of the hold and once at the end

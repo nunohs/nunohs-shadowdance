@@ -161,7 +161,7 @@ public class ShadowDance extends AbstractGame  {
 
         } else if (levelPlaying.checkFinished()) {
             // end screen
-            if (!levelPlaying.endLevel()) {
+            if (levelPlaying.endLevel()) {
                 TITLE_FONT.drawString(CLEAR_MESSAGE,
                         WINDOW_WIDTH/2 - TITLE_FONT.getWidth(CLEAR_MESSAGE)/2,
                         END_Y_ONE);

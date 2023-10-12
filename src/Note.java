@@ -4,16 +4,19 @@ import bagel.*;
  * Class for normal notes
  */
 public class Note {
-    private final Image image;
-    private final int appearanceFrame;
-    private final int speed = 2;
-    private int y = 100;
-    private boolean active = false;
-    private boolean completed = false;
+    protected final Image image;
+    protected int appearanceFrame;
+    protected int speed = 2;
+    protected int y = 100;
+    protected boolean active = false;
+    protected boolean completed = false;
 
     public Note(String dir, int appearanceFrame) {
-        image = new Image("res/note" + dir + ".png");
+        image = new Image(dir);
         this.appearanceFrame = appearanceFrame;
+    }
+    public void setSpeed(int tempSpeed){
+        speed += tempSpeed;
     }
 
     public boolean isActive() {
