@@ -7,7 +7,7 @@ import java.util.List;
 public class Guardian {
     private final Image guardianImage = new Image("res/guardian.PNG");
     private static final Point GUARDIAN_POINT = new Point(800,600);
-    private List<Enemy> enemies = new ArrayList<>();
+    //private List<Enemy> enemies = new ArrayList<>();
     private int numEnemy = 0;
     private int currEnemy = 0;
     private final static int ENEMY_FRAME_SPAWN = 600;
@@ -15,19 +15,19 @@ public class Guardian {
     private final static int MAX_DISTANCE = 10000;
     private final static int COLLISION = 62;
 
-    public void update(Input input){
+    public void update(Input input, List<Enemy> enemies ){
         guardianImage.draw(GUARDIAN_POINT.x,GUARDIAN_POINT.y);
 
         if((LevelBase.getCurrFrame() % ENEMY_FRAME_SPAWN) == 0){
-            createEnemy();
+            createEnemy( enemies);
 
         }
         for (int i= currEnemy ; i < numEnemy; i++) {
             enemies.get(i).update();
         }
 
-        if(input.wasPressed(Keys.V) && numEnemy != 0 && checkActiveEnemy() ){
-            Projectile projectile = new Projectile(closestEnemyToGuardian().getCurrentLocation());
+        if(input.wasPressed(Keys.V) && numEnemy != 0 && checkActiveEnemy( enemies) ){
+            Projectile projectile = new Projectile(closestEnemyToGuardian( enemies).getCurrentLocation());
             projectileList.add(projectile);
         }
         for(Projectile projectiles: projectileList){
@@ -46,13 +46,13 @@ public class Guardian {
 
         }
     }
-    public void createEnemy(){
+    public void createEnemy(List<Enemy> enemies){
         Enemy newEnemy = new Enemy();
         enemies.add(numEnemy, newEnemy);
         numEnemy++;
     }
     // Finds the closest Enemy from the Guardian
-    public Enemy closestEnemyToGuardian(){
+    public Enemy closestEnemyToGuardian(List<Enemy> enemies){
         double closestEnemyDistance = MAX_DISTANCE;
         int closestEnemyIndex = -1;
         for (int i= currEnemy ; i < numEnemy; i++) {
@@ -66,7 +66,7 @@ public class Guardian {
         return enemies.get(closestEnemyIndex);
     }
     // Checks whether there are enemies active on the game
-    public boolean checkActiveEnemy(){
+    public boolean checkActiveEnemy(List<Enemy> enemies){
         for (int i= currEnemy ; i < numEnemy; i++) {
             if (enemies.get(i).isActivated()) {
                 return true;

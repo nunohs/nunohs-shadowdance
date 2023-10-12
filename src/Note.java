@@ -10,6 +10,7 @@ public class Note {
     protected int y = 100;
     protected boolean active = false;
     protected boolean completed = false;
+    protected int xCoord = 0;
 
     public Note(String dir, int appearanceFrame) {
         image = new Image(dir);
@@ -28,6 +29,9 @@ public class Note {
         active = false;
         completed = true;
     }
+    public int getY() {
+        return y;
+    }
 
     public void update() {
         if (active) {
@@ -41,8 +45,13 @@ public class Note {
 
     public void draw(int x) {
         if (active) {
+            this.xCoord = x;
             image.draw(x, y);
         }
+    }
+
+    public int getxCoord() {
+        return xCoord;
     }
 
     public int checkScore(Input input, Accuracy accuracy, int targetHeight, Keys relevantKey) {

@@ -26,7 +26,8 @@ public class Accuracy {
     private static final String SPEED_UP = "Speed Up";
     private static final String SLOW_DOWN = "Slow Down";
     private static final String NONE = "No Effect";
-    private static final int SPECIAL = 15;
+    private static final String BOMB = "Lane Clear";
+
 
     public void setAccuracy(String accuracy) {
         currAccuracy = accuracy;
@@ -72,7 +73,9 @@ public class Accuracy {
                 case "2x":
                     setAccuracy(DOUBLED);
                     return DOUBLED;
-
+                case "Bomb":
+                    setAccuracy(BOMB);
+                    return BOMB;
             }
         }
         return NONE;

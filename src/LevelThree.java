@@ -1,8 +1,12 @@
 import bagel.Input;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class LevelThree extends LevelBase{
     private Guardian guardian = new Guardian();
     private static final int CLEAR_SCORE_THREE = 350;
+    private List<Enemy> enemies = new ArrayList<>();
     public LevelThree(){
         super();
         this.clearScore = CLEAR_SCORE_THREE;
@@ -24,9 +28,19 @@ public class LevelThree extends LevelBase{
                 score += lane.update(input, accuracy);
             }
         }
-        guardian.update(input);
+        guardian.update(input, enemies);
+        enemyHitsNotes();
         accuracy.update();
         finished = checkFinished();
+    }
+    public void enemyHitsNotes(){
+        for (Lane lane: lanes) {
+            for (Enemy enemy: enemies){
+                if(enemy.isActivated()) {
+                    lane.enemyCollision(enemy.getCurrentLocation());
+                }
+            }
+        }
     }
 
 }

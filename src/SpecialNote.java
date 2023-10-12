@@ -1,13 +1,10 @@
-import bagel.Image;
-import bagel.Input;
-import bagel.Keys;
-import bagel.Window;
+import bagel.*;
 
 public class SpecialNote extends Note {
     //private int y = 100;
     //private final Image image;
     // private final int appearanceFrame;
-    private String type;
+    private final String type;
 
     public SpecialNote(String dir, int appearanceFrame, String type) {
         super(dir, appearanceFrame);

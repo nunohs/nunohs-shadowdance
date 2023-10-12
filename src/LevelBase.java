@@ -129,9 +129,9 @@ public abstract class LevelBase {
                                 lane.addSpecialNote(doubleScoreNote);
                                 break;
                             case "Bomb":
-                                Note bombNote = new Note("res/note" + splitText[1] + ".png",
-                                        Integer.parseInt(splitText[2]));
-                                lane.addNote(bombNote);
+                                SpecialNote bombNote = new SpecialNote("res/note" + splitText[1] + ".png",
+                                        Integer.parseInt(splitText[2]),splitText[1]);
+                                lane.addSpecialNote(bombNote);
                                 break;
                         }
                     }

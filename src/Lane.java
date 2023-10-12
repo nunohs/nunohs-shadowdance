@@ -1,4 +1,5 @@
 import bagel.*;
+import bagel.util.Point;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,8 @@ public class Lane {
     private int currSpecialNote = 0;
     private static final int SPEED_UP = 1;
     private static final int SPEED_DOWN = 1;
+    private static final int SPECIAL = 15;
+    private static final int COLLISION_ENEMY = 104;
 
     public Lane(String dir, int location) {
         this.type = dir;
@@ -109,15 +112,15 @@ public class Lane {
         switch (type){
             case "Speed Up":
                 LevelBase.speedUpActive();
-                return 15;
+                return SPECIAL;
             case "Slow Down":
                 LevelBase.speedDownActive();
-                return 15;
+                return SPECIAL;
             case "Double Score":
                 LevelBase.doubleActive();
-            default:
-                return 0;
+                break;
         }
+        return 0;
     }
     // Changes note speed for all lanes
     public void changeSpeed(int tempSpeed){
@@ -180,6 +183,27 @@ public class Lane {
         }
         for (int k = currSpecialNote; k < numSpecialNotes; k++) {
            specialNotes.get(k).draw(location);
+        }
+    }
+
+    public void enemyCollision(Point enemyPosition){
+        for (int i = currNote; i < numNotes; i++) {
+            Point notePoint = new Point(notes.get(i).getxCoord(),notes.get(i).getY());
+            if(enemyPosition.distanceTo(notePoint) <= COLLISION_ENEMY){
+                notes.get(i).deactivate();
+            }
+        }
+        for (int j = currHoldNote; j < numHoldNotes; j++) {
+            Point notePoint = new Point(holdNotes.get(j).getxCoord(),holdNotes.get(j).getY());
+            if(enemyPosition.distanceTo(notePoint) <= COLLISION_ENEMY){
+                holdNotes.get(j).deactivate();
+            }
+        }
+        for (int k = currSpecialNote; k < numSpecialNotes; k++) {
+            Point notePoint = new Point(specialNotes.get(k).getxCoord(),specialNotes.get(k).getY());
+            if(enemyPosition.distanceTo(notePoint) <= COLLISION_ENEMY){
+                specialNotes.get(k).deactivate();
+            }
         }
     }
 
