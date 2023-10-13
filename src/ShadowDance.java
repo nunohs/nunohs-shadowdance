@@ -3,6 +3,7 @@ import bagel.*;
 /**
  * Uses Sample solution for SWEN20003 Project 1, Semester 2, 2023 for
  * the base (Level 1) By Stella Li
+ * Created By
  * @ Hadi Nuno Handrison
  */
 public class ShadowDance extends AbstractGame  {

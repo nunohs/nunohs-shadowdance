@@ -116,6 +116,11 @@ public class Lane {
         return Accuracy.NOT_SCORED;
     }
 
+    /**
+     * Sets the effect of special notes
+     * @param type of special note
+     * @return score of special note when pressed
+     */
     public int specialEffectsScore(String type){
         switch (type){
             case "Speed Up":
@@ -133,7 +138,12 @@ public class Lane {
         }
         return 0;
     }
-    // Changes note speed for all lanes
+
+    /**
+     * Changes note speed for all lanes
+     * @param tempSpeed of the note being added to the notes
+     */
+
     public void changeSpeed(int tempSpeed){
         for (int i = currNote; i < numNotes; i++) {
             notes.get(i).setSpeed(tempSpeed);
@@ -147,6 +157,9 @@ public class Lane {
         }
     }
 
+    /**
+     * Clears all the notes in the specific lane
+     */
     public void bombExplodes(){
         for (int i = currNote; i < numNotes; i++) {
             if(notes.get(i).isActive()) {

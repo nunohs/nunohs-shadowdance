@@ -7,6 +7,9 @@ public class LevelThree extends LevelBase{
     private final Guardian guardian = new Guardian();
     private static final int CLEAR_SCORE_THREE = 350;
     private List<Enemy> enemies = new ArrayList<>();
+    /**
+     * default constructor
+     */
     public LevelThree(){
         super();
         this.clearScore = CLEAR_SCORE_THREE;
@@ -17,6 +20,7 @@ public class LevelThree extends LevelBase{
         currFrame++;
         changeSpeed();
         for (Lane lane: lanes) {
+            // checks whether Double Score Note is pressed
             if(isDoubled() && doubledFrame <= 480){
                 score += (lane.update(input, accuracy) * 2);
 

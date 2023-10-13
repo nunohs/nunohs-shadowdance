@@ -9,6 +9,7 @@ public class HoldNote extends Note{
     private boolean holdStarted = false;
     private final static int Y_HOLD = 24;
 
+
     public HoldNote(String dir, int appearanceFrame) {
         super(dir,appearanceFrame);
         this.y = Y_HOLD;
@@ -19,6 +20,9 @@ public class HoldNote extends Note{
         super.update();
     }
 
+    /**
+     * Flag indicating hold note has started
+     */
     public void startHold() {
         holdStarted = true;
     }

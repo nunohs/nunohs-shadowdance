@@ -28,12 +28,18 @@ public class Accuracy {
     private static final String NONE = "No Effect";
     private static final String BOMB = "Lane Clear";
 
-
+    /**
+     * sets the accuracy and resets the frame count
+     */
     public void setAccuracy(String accuracy) {
         currAccuracy = accuracy;
         frameCount = 0;
     }
 
+    /**
+     * Evaluate the score of each note if triggered by user
+     * @return score of each note
+     */
     public int evaluateScore(int height, int targetHeight, boolean triggered) {
         int distance = Math.abs(height - targetHeight);
 
@@ -60,6 +66,10 @@ public class Accuracy {
         return NOT_SCORED;
 
     }
+    /**
+     * Checks whether the special notes was pressed near the target note
+     * @return The message for the special notes
+     */
     public String evaluateSpecialEffects(int height, int targetHeight, String noteType){
         int distance = Math.abs(height - targetHeight);
         if(distance <= ACTIVATED ){
@@ -80,7 +90,9 @@ public class Accuracy {
         }
         return NONE;
     }
-
+    /**
+     * Updates accuracy message
+     */
     public void update() {
         frameCount++;
         if (currAccuracy != null && frameCount < RENDER_FRAMES) {

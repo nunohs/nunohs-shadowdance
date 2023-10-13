@@ -2,6 +2,9 @@ import bagel.*;
 
 public class LevelOne extends LevelBase{
     private static final int CLEAR_SCORE_ONE = 150;
+    /**
+     * default constructor
+     */
     public LevelOne(){
         super();
         this.clearScore = CLEAR_SCORE_ONE;

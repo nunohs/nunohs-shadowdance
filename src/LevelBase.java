@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * The abstract class for all levels
+ */
 public abstract class LevelBase {
     protected static int currFrame;
     protected static boolean doubled = false;
@@ -22,7 +24,9 @@ public abstract class LevelBase {
     protected static boolean speedDown = false;
     protected static int speedChange = 0;
 
-
+    /**
+     * Default constructor for each level
+     */
     public LevelBase() {
         this.currFrame = 0;
         this.lanes = new ArrayList<>();
@@ -33,42 +37,77 @@ public abstract class LevelBase {
         this.numLanes = 0;
     }
 
+    /**
+     * sets the speedUp flag to be true
+     */
+
     public static void speedUpActive(){
         speedUp = true;
         speedChange = 1;
     }
+    /**
+     * Flag indicating whether speedUp is active
+     * @return flag for speedUp
+     */
     public static boolean isSpeedUpActive(){
         return speedUp;
     }
-
+    /**
+     * Flag indicating whether speedDown is active
+     * @return flag for speedDown
+     */
     public static boolean isSpeedDownActive() {
         return speedDown;
     }
-
+    /**
+     * sets the speedDown flag to be true
+     */
     public static void speedDownActive(){
         speedDown = true;
         speedChange = -1;
     }
+    /**
+     * sets the doubled flag to be true
+     */
     public static void doubleActive(){
         doubled = true;
         doubledFrame = 0;
     }
+    /**
+     * sets the doubled flag to be false and resets the doubledFrame
+     */
     public static void deactivateDouble(){
         doubled = false;
         doubledFrame = 0;
     }
 
+    /**
+     * Flag indicating whether doubled is active
+     * @return flag for doubled
+     */
     public static boolean isDoubled() {
         return doubled;
     }
+
+    /**
+     * resets both flag for speedUp and speedDown
+     */
     public void deActivateSpeedChange(){
         speedUp = false;
         speedDown = false;
     }
 
+    /**
+     * gets the current frame of the levels
+     * @return current frame of the levels
+     */
     public static int getCurrFrame(){
         return currFrame;
     }
+    /**
+     * Checks if the level is done
+     * @return true if level is finished, false if not.
+     */
     protected boolean checkFinished() {
         for (Lane lane: lanes) {
             if (!lane.isFinished()) {
@@ -79,6 +118,10 @@ public abstract class LevelBase {
         deActivateSpeedChange();
         return true;
     }
+    /**
+     * Reads CSV file and adds the respective lanes and notes
+     * @param levelNumber of a level
+     */
     private void readCsv(int levelNumber) {
         try (BufferedReader br = new BufferedReader(new FileReader("res/level" + levelNumber + ".csv"))) {
             String textRead;
@@ -143,23 +186,37 @@ public abstract class LevelBase {
         }
 
     }
-
+    /**
+     * runs the specific level initiated
+     */
     public void runLevel() {
         readCsv(levelNumber);
         started = true;
     }
+    /**
+     * Updates the game for each frame
+     * @param input of the user
+     */
     public abstract void update(Input input);
 
+    /**
+     * Calculates whether user cleared the level
+     */
     public boolean endLevel(){
         if(score >= clearScore){
             return true;
         }
         return false;
     }
-
+    /**
+     * @return score of the level
+     */
     public int getScore() {
         return score;
     }
+    /**
+     * @ Changes the speed for all notes when speedUp or speedDown is pressed
+     */
     public void changeSpeed(){
         if(isSpeedUpActive()){
             for (Lane lane: lanes) {
