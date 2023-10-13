@@ -10,7 +10,7 @@ public class Projectile {
     private double projectileDirectionY = 0;
     private boolean active = false;
     private double angleProjectile = 0;
-    private DrawOptions rotation = new DrawOptions();
+    private final DrawOptions rotation = new DrawOptions();
     public Projectile(Point enemyLocation){
         setProjectileDirection(enemyLocation);
         this.angleProjectile = Math.atan2(enemyLocation.y - projectileInitialPoint.y,
@@ -29,9 +29,6 @@ public class Projectile {
             yCoord += SPEED * projectileDirectionY;
             projectileImage.draw(xCoord, yCoord,rotation);
         }
-    }
-    public void draw(){
-
     }
 
     public void deActivate(){

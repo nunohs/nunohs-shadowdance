@@ -15,15 +15,13 @@ public abstract class LevelBase {
     protected int levelNumber;
     protected int numLanes;
     protected int clearScore;
-    private final Font SCORE_FONT = new Font(FONT_FILE, 30);
-    public final static String FONT_FILE = "res/FSO8BITR.TTF";
+
     protected int score;
-    private final static int SCORE_LOCATION = 35;
     protected static int doubledFrame = 0;
     protected static boolean speedUp = false;
     protected static boolean speedDown = false;
     protected static int speedChange = 0;
-    protected static boolean bomb = false;
+
 
     public LevelBase() {
         this.currFrame = 0;
@@ -34,17 +32,7 @@ public abstract class LevelBase {
         this.score = 0;
         this.numLanes = 0;
     }
-    public static void bombActivated(){
-        bomb = true;
-    }
-    public void bombExplodes(){
-        if(bomb){
-            for (Lane lane: lanes) {
-                lane.bombExplodes();
-            }
-            bomb = false;
-        }
-    }
+
     public static void speedUpActive(){
         speedUp = true;
         speedChange = 1;

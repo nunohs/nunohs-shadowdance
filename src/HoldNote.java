@@ -6,12 +6,7 @@ import bagel.*;
 public class HoldNote extends Note{
 
     private static final int HEIGHT_OFFSET = 82;
-    // private final Image image;
-    //private final int appearanceFrame;
-    //private int y = 24;
-    //private boolean active = false;
     private boolean holdStarted = false;
-    //private boolean completed = false;
     private final static int Y_HOLD = 24;
 
     public HoldNote(String dir, int appearanceFrame) {
@@ -27,8 +22,6 @@ public class HoldNote extends Note{
     public void startHold() {
         holdStarted = true;
     }
-
-
 
     /**
      * scored twice, once at the start of the hold and once at the end

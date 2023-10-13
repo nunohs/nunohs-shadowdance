@@ -21,9 +21,7 @@ public class LevelTwo extends LevelBase{
                 score += lane.update(input, accuracy);
             }
         }
-
         accuracy.update();
-        bombExplodes();
         finished = checkFinished();
     }
 

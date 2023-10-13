@@ -1,10 +1,5 @@
 import bagel.*;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Uses Sample solution for SWEN20003 Project 1, Semester 2, 2023 for
  * the base (Level 1) By Stella Li
@@ -15,7 +10,7 @@ public class ShadowDance extends AbstractGame  {
     private final static int WINDOW_HEIGHT = 768;
     private final static String GAME_TITLE = "SHADOW DANCE";
     private final Image BACKGROUND_IMAGE = new Image("res/background.png");
-    private final static String CSV_FILE = "res/level3.csv";
+
     public final static String FONT_FILE = "res/FSO8BITR.TTF";
     private final static int TITLE_X = 220;
     private final static int TITLE_Y = 250;
@@ -26,29 +21,19 @@ public class ShadowDance extends AbstractGame  {
     private final Font INSTRUCTION_FONT = new Font(FONT_FILE, 24);
     private final Font SCORE_FONT = new Font(FONT_FILE, 30);
     private static final String INSTRUCTIONS = "SELECT LEVELS WITH\nNUMBER KEYS\n\n 1          2            3";
-    private static final int CLEAR_SCORE = 150;
+
     private static final String CLEAR_MESSAGE = "CLEAR!";
     private static final String TRY_AGAIN_MESSAGE = "TRY AGAIN";
     private static final String END_SCREEN_MESSAGE = "PRESS SPACE TO RETURN TO LEVEL SELECTION";
     private static final int END_Y_ONE = 300;
     private static final int END_Y_TWO = 500;
-    private final Accuracy accuracy = new Accuracy();
-    private List<Lane> lanes= new ArrayList<>();
-    private int numLanes = 0;
-    private int score = 0;
-    private static int currFrame = 0;
-    private Track track = new Track("res/track1.wav");
     private boolean started = false;
-    private boolean finished = false;
-    private boolean paused = false;
-    private Guardian guardian = new Guardian();
     private LevelBase levelPlaying;
 
     public ShadowDance(){
         super(WINDOW_WIDTH, WINDOW_HEIGHT, GAME_TITLE);
 
     }
-
 
     /**
      * The entry point for the program.
@@ -57,69 +42,6 @@ public class ShadowDance extends AbstractGame  {
         ShadowDance game = new ShadowDance();
         game.run();
     }
-
-
-
-   /* private void readCsv() {
-        try (BufferedReader br = new BufferedReader(new FileReader(CSV_FILE))) {
-            String textRead;
-            while ((textRead = br.readLine()) != null) {
-                String[] splitText = textRead.split(",");
-
-                if (splitText[0].equals("Lane")) {
-                    // reading lanes
-                    String laneType = splitText[1];
-                    int pos = Integer.parseInt(splitText[2]);
-                    Lane lane = new Lane(laneType, pos);
-                    lanes.add(numLanes++, lane);
-                } else {
-                    // reading notes
-                    String dir = splitText[0];
-                    Lane lane = null;
-                    for (int i = 0; i < numLanes; i++) {
-                        if (lanes.get(i).getType().equals(dir)) {
-                            lane = lanes.get(i);
-                        }
-                    }
-
-                    if (lane != null) {
-                        switch (splitText[1]) {
-                            case "Normal":
-                                Note note = new Note(dir, Integer.parseInt(splitText[2]));
-                                lane.addNote(note);
-                                break;
-                            case "Hold":
-                                HoldNote holdNote = new HoldNote(dir, Integer.parseInt(splitText[2]));
-                                lane.addHoldNote(holdNote);
-                                break;
-                            case "SpeedUp":
-                                SpecialNote speedUpNote = new SpecialNote("SpeedUp", Integer.parseInt(splitText[2]));
-                                lane.addSpecialNote(speedUpNote);
-                                break;
-                            case "SlowDown":
-                                SpecialNote slowDownNote = new SpecialNote("SlowDown", Integer.parseInt(splitText[2]));
-                                lane.addSpecialNote(slowDownNote);
-                                break;
-                            case "DoubleScore":
-                                SpecialNote doubleScoreNote = new SpecialNote("2x", Integer.parseInt(splitText[2]));
-                                lane.addSpecialNote(doubleScoreNote);
-                                break;
-                            case "Bomb":
-                                Note bombNote = new Note("Bomb", Integer.parseInt(splitText[2]));
-                                lane.addNote(bombNote);
-                                break;
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.exit(-1);
-        }
-
-    }
-
-    */
 
     /**
      * Performs a state update.
@@ -144,19 +66,19 @@ public class ShadowDance extends AbstractGame  {
                 started = true;
                 levelPlaying = new LevelOne();
                 levelPlaying.runLevel();
-                //track.start();
+
             }
             else if (input.wasPressed(Keys.NUM_2)) {
                 started = true;
                 levelPlaying = new LevelTwo();
                 levelPlaying.runLevel();
-                //track.start();
+
             }
             else if (input.wasPressed(Keys.NUM_3)) {
                 started = true;
                 levelPlaying = new LevelThree();
                 levelPlaying.runLevel();
-                //track.start();
+
             }
 
         } else if (levelPlaying.checkFinished()) {
@@ -178,55 +100,11 @@ public class ShadowDance extends AbstractGame  {
             }
         }
         else {
+            // gameplay
             SCORE_FONT.drawString("Score " + levelPlaying.getScore(), SCORE_LOCATION, SCORE_LOCATION);
             levelPlaying.update(input);
-            /*// gameplay
 
-            SCORE_FONT.drawString("Score " + score, SCORE_LOCATION, SCORE_LOCATION);
-
-            if (paused) {
-                if (input.wasPressed(Keys.TAB)) {
-                    paused = false;
-                    //track.run();
-                }
-
-                for (int i = 0; i < numLanes; i++) {
-                    lanes.get(i).draw();
-                }
-
-            } else {
-                currFrame++;
-                for (int i = 0; i < numLanes; i++) {
-                    score += lanes.get(i).update(input, accuracy);
-                }
-
-                guardian.update(input);
-                accuracy.update();
-                finished = checkFinished();
-                if (input.wasPressed(Keys.TAB)) {
-                    paused = true;
-                    track.pause();
-                }
-            }
-
-             */
         }
 
-
-
     }
-
-    public static int getCurrFrame() {
-        return currFrame;
-    }
-
-    private boolean checkFinished() {
-        for (int i = 0; i < numLanes; i++) {
-            if (!lanes.get(i).isFinished()) {
-                return false;
-            }
-        }
-        return true;
-    }
-
 }

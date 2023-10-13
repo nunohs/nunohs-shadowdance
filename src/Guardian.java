@@ -7,9 +7,9 @@ import java.util.List;
 public class Guardian {
     private final Image guardianImage = new Image("res/guardian.PNG");
     private static final Point GUARDIAN_POINT = new Point(800,600);
-    //private List<Enemy> enemies = new ArrayList<>();
+
     private int numEnemy = 0;
-    private int currEnemy = 0;
+    private final int currEnemy = 0;
     private final static int ENEMY_FRAME_SPAWN = 600;
     private List<Projectile> projectileList = new ArrayList<Projectile>();
     private final static int MAX_DISTANCE = 10000;
@@ -26,7 +26,7 @@ public class Guardian {
             enemies.get(i).update();
         }
 
-        if(input.wasPressed(Keys.V) && numEnemy != 0 && checkActiveEnemy( enemies) ){
+        if(input.wasPressed(Keys.LEFT_SHIFT) && numEnemy != 0 && checkActiveEnemy( enemies) ){
             Projectile projectile = new Projectile(closestEnemyToGuardian( enemies).getCurrentLocation());
             projectileList.add(projectile);
         }

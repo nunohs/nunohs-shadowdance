@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LevelThree extends LevelBase{
-    private Guardian guardian = new Guardian();
+    private final Guardian guardian = new Guardian();
     private static final int CLEAR_SCORE_THREE = 350;
     private List<Enemy> enemies = new ArrayList<>();
     public LevelThree(){
@@ -30,7 +30,6 @@ public class LevelThree extends LevelBase{
         guardian.update(input, enemies);
         enemyHitsNotes();
         accuracy.update();
-        bombExplodes();
         finished = checkFinished();
     }
     public void enemyHitsNotes(){

@@ -12,13 +12,12 @@ public class Lane {
     protected static final int TARGET_HEIGHT = 657;
     private final String type;
     private final Image image;
-    //private final Note[] notes = new Note[100];
+
     private List<Note> notes = new ArrayList<Note>();
     private int numNotes = 0;
-    // CHANGE THIS TO ARRAYLIST
-    //private final HoldNote[] holdNotes = new HoldNote[30];
+
     private List<HoldNote> holdNotes = new ArrayList<HoldNote>();
-    //private final SpecialNote[] specialNotes = new SpecialNote[40];
+
     private List<SpecialNote> specialNotes = new ArrayList<SpecialNote>();
     private int numHoldNotes = 0;
     private int numSpecialNotes = 0;
@@ -27,8 +26,6 @@ public class Lane {
     private int currNote = 0;
     private int currHoldNote = 0;
     private int currSpecialNote = 0;
-    private static final int SPEED_UP = 1;
-    private static final int SPEED_DOWN = 1;
     private static final int SPECIAL = 15;
     private static final int COLLISION_ENEMY = 104;
 
@@ -131,7 +128,7 @@ public class Lane {
                 LevelBase.doubleActive();
                 break;
             case "Lane Clear":
-                LevelBase.bombActivated();
+                bombExplodes();
                 break;
         }
         return 0;
@@ -156,7 +153,6 @@ public class Lane {
                 notes.get(i).deactivate();
             }
         }
-
         for (int j = currHoldNote; j < numHoldNotes; j++) {
             if(holdNotes.get(j).isActive()) {
                 holdNotes.get(j).deactivate();
@@ -223,20 +219,8 @@ public class Lane {
     public void enemyCollision(Point enemyPosition){
         for (int i = currNote; i < numNotes; i++) {
             Point notePoint = new Point(notes.get(i).getxCoord(),notes.get(i).getY());
-            if(enemyPosition.distanceTo(notePoint) <= COLLISION_ENEMY){
+            if(enemyPosition.distanceTo(notePoint) <= COLLISION_ENEMY && !(notes.get(currNote) instanceof SpecialNote)){
                 notes.get(i).deactivate();
-            }
-        }
-        for (int j = currHoldNote; j < numHoldNotes; j++) {
-            Point notePoint = new Point(holdNotes.get(j).getxCoord(),holdNotes.get(j).getY());
-            if(enemyPosition.distanceTo(notePoint) <= COLLISION_ENEMY){
-                holdNotes.get(j).deactivate();
-            }
-        }
-        for (int k = currSpecialNote; k < numSpecialNotes; k++) {
-            Point notePoint = new Point(specialNotes.get(k).getxCoord(),specialNotes.get(k).getY());
-            if(enemyPosition.distanceTo(notePoint) <= COLLISION_ENEMY){
-                specialNotes.get(k).deactivate();
             }
         }
     }
