@@ -1,7 +1,7 @@
 import bagel.*;
 
 /**
- * Uses Sample solution for SWEN20003 Project 1, Semester 2, 2023 for
+ * Uses some parts of the sample solution for SWEN20003 Project 1, Semester 2, 2023 for
  * the base (Level 1) By Stella Li
  * Created By
  * @ Hadi Nuno Handrison
