@@ -11,8 +11,6 @@ This project was developed as part of my 2nd year university coursework to explo
 - 🎵 Custom music tracks
 - 🎮 Multiple levels with increasing difficulty
 - ✨ Rhythm-based gameplay
-- 💥 Visual effects for feedback and immersion
-- 🎹 Keyboard input for note-hitting mechanics
 
 ---
 
@@ -21,7 +19,6 @@ This project was developed as part of my 2nd year university coursework to explo
 - **Java**
 - **Object-Oriented Programming (OOP)**
 - **2D Game Development**
-- **Animation (frame-based and timed effects)**
 
 ---
 
